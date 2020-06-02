@@ -1,4 +1,4 @@
-- hosts: 172.16.7.153
+- hosts: jdk
   remote_user: root
   roles:
-  - jdk7
+  - jdk8

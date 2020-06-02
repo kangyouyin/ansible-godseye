@@ -1,14 +1,31 @@
+---
 - name: install zookeeper
-  unarchive: src=zookeeper-3.4.6.tar.gz dest=/usr/local/
+  unarchive: src={{ zk_package_name }} dest=/opt/bigdata/
 - name: install configuration file for zookeeper
-  template: src=zoo.cfg.j2 dest=/usr/local/zookeeper-3.4.6/conf/zoo.cfg
+  template: src=zoo.cfg.j2 dest={{ zk_home }}/conf/zoo.cfg
+- name: mkdir necessary zk_data_dir
+  file: path={{ zk_data_dir }}/dataDir state=directory mode=755
+- name: mkdir necessary zk_data_log_dir
+  file: path={{ zk_data_dir }}/dataLogDir state=directory mode=755
 - name: add myid file
-  shell: echo {{ myid }} > /usr/local/zookeeper-3.4.6/dataDir/myid
+  shell: echo {{ myid }} > {{ zk_data_dir }}/dataDir/myid
 - name: copy script to clear zookeeper logs.
-  copy: src=clean_zklog.sh dest=/usr/local/zookeeper-3.4.6/clean_zklog.sh mode=755
+  copy: src=clean_zklog.sh dest={{ zk_home }}/clean_zklog.sh mode=755
 - name: crontab task
-  cron: name="clear zk logs" weekday="0" hour="0" minute="0" job="/usr/local/zookeeper-3.4.6/clean_zklog.sh"
+  cron: name="clear zk logs" weekday="0" hour="0" minute="0" job="{{ zk_home }}/clean_zklog.sh"
+- name: set env
+  lineinfile: dest={{ env_file }} insertafter="{{ item.position }}" line="{{ item.value }}" state=present
+  with_items:
+    - {position: EOF, value: "export ZOOKEEPER_HOME={{zk_home}}"}
+    - {position: EOF, value: "export PATH=$PATH:$ZOOKEEPER_HOME/bin"}
+- name: enforce env
+  shell: source {{ env_file }}
+- name: chown -R root:root {{ zk_home }}
+  shell: chown -R root:root {{ zk_home }}
+- name: stop zookeeper
+  shell: source {{ env_file }} && {{ zk_home }}/bin/zkServer.sh stop
 - name: start zookeeper
-  shell: /usr/local/zookeeper-3.4.6/bin/zkServer.sh start
+  shell: source {{ env_file }} && nohup {{ zk_home }}/bin/zkServer.sh start 2>&1 &
+  async: 5
   tags:
-  - start
+    - start

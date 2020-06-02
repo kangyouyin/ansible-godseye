@@ -10,8 +10,8 @@ syncLimit=5
 # do not use /tmp for storage, /tmp here is just 
 # example sakes.
 # 存放数据文件
-dataDir=/usr/local/zookeeper-3.4.6/dataDir
-dataLogDir=/usr/local/zookeeper-3.4.6/dataLogDir
+dataDir={{ zk_data_dir }}/dataDir
+dataLogDir={{ zk_data_dir }}/dataLogDir
 # the port at which the clients will connect
 clientPort=2181
 # the maximum number of client connections.
@@ -33,4 +33,3 @@ clientPort=2181
 server.1={{ server1_hostname }}:2888:3888
 server.2={{ server2_hostname }}:2888:3888
 server.3={{ server3_hostname }}:2888:3888
-

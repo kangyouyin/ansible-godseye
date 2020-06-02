@@ -1,0 +1,3 @@
+---
+- name: start zookeeper
+  shell: /bin/bash {{ zk_home }}/bin/zkServer.sh restart

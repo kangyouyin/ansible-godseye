@@ -1,3 +1,8 @@
-server1_hostname: hadoop27
-server2_hostname: hadoop28
-server3_hostname: hadoop29
+server1_hostname: node11
+server2_hostname: node12
+server3_hostname: node13
+env_file: /etc/profile
+zk_package_name: zookeeper-3.4.6.tar.gz
+zk_version: zookeeper-3.4.6
+zk_home: /opt/bigdata/zookeeper-3.4.6
+zk_data_dir: /var/bigdata/zookeeper
