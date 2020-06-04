@@ -24,6 +24,8 @@
   shell: chown -R root:root {{ zk_home }}
 - name: stop zookeeper
   shell: source {{ env_file }} && {{ zk_home }}/bin/zkServer.sh stop
+  tags:
+    - stop
 - name: start zookeeper
   shell: source {{ env_file }} && nohup {{ zk_home }}/bin/zkServer.sh start 2>&1 &
   async: 5

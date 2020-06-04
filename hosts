@@ -52,4 +52,8 @@ node11 myid=1
 node12 myid=2
 node13 myid=3
 
+[hadoop]
+node11 namenode_active=true  namenode_standby=false datanode=true zk_server=true
+node12 namenode_active=false namenode_standby=true  datanode=true zk_server=true
+node13 namenode_active=false namenode_standby=false datanode=true zk_server=true
 

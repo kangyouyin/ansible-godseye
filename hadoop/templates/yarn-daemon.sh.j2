@@ -28,7 +28,7 @@
 #   YARN_NICENESS The scheduling priority for daemons. Defaults to 0.
 ##
 
-YARN_PID_DIR=/usr/local/hadoop
+YARN_PID_DIR={{ hadoop_data_dir }}
 
 usage="Usage: yarn-daemon.sh [--config <conf-dir>] [--hosts hostlistfile] (start|stop) <yarn-command> "
 

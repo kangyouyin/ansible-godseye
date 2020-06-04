@@ -28,7 +28,7 @@
 #   HADOOP_NICENESS The scheduling priority for daemons. Defaults to 0.
 ##
 
-HADOOP_PID_DIR=/usr/local/hadoop
+HADOOP_PID_DIR={{ hadoop_data_dir }}
 
 usage="Usage: hadoop-daemon.sh [--config <conf-dir>] [--hosts hostlistfile] [--script script] (start|stop) <hadoop-command> <args...>"
 
