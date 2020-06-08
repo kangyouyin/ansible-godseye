@@ -1,0 +1,18 @@
+first_install: false
+env_file: /etc/profile
+hive_package_name: apache-hive-2.3.4-bin.tar.gz
+hive_unpackage_name: apache-hive-2.3.4-bin
+hive_version: hive-2.3.4
+hive_home: /opt/bigdata/hive-2.3.4
+hive_data_dir: /var/bigdata/hive
+mysql_connector_name: mysql-connector-java-5.1.35.jar
+# metastore-hive-site.xml.j2 && hive-site.xml.j2 file variables.
+hive_metastore_warehouse_dir: /user/hive_remote3/warehouse
+mysql_domain: 192.168.227.131
+hive_metastore_db: hive_remote3
+mysql_user_name: root
+mysql_password: 123456
+metastore_hostname: node12
+
+# hive-env.sh.j2
+hadoop_home: /opt/bigdata/hadoop-2.6.5

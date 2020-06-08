@@ -57,3 +57,6 @@ node11 namenode_active=true  namenode_standby=false datanode=true zk_server=true
 node12 namenode_active=false namenode_standby=true  datanode=true zk_server=true
 node13 namenode_active=false namenode_standby=false datanode=true zk_server=true
 
+[hive]
+node12 metastore_service=true  hiveserver2_service=false
+node13 metastore_service=false hiveserver2_service=true

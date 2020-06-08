@@ -16,6 +16,7 @@
 - name: set env
   lineinfile: dest={{ env_file }} insertafter="{{ item.position }}" line="{{ item.value }}" state=present
   with_items:
+    - {position: EOF, value: "# zookeeper environment"}
     - {position: EOF, value: "export ZOOKEEPER_HOME={{zk_home}}"}
     - {position: EOF, value: "export PATH=$PATH:$ZOOKEEPER_HOME/bin"}
 - name: enforce env

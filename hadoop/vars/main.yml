@@ -1,3 +1,4 @@
+first_install: false
 dependency_packages:
   - openssh
   - rsync

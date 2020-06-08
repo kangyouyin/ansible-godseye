@@ -1,0 +1,4 @@
+- hosts: hive
+  remote_user: root
+  roles:
+    - hive
