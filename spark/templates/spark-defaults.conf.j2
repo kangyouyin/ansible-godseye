@@ -15,6 +15,18 @@
 # limitations under the License.
 #
 
-# A Spark Worker will be started on each of the machines listed below.
-{{SLAVE1_HOSTNAME}}
-{{SLAVE2_HOSTNAME}}
+# Default system properties included when running spark-submit.
+# This is useful for setting default environmental settings.
+
+# Example:
+# spark.master                     spark://master:7077
+# spark.eventLog.enabled           true
+# spark.eventLog.dir               hdfs://namenode:8021/directory
+# spark.serializer                 org.apache.spark.serializer.KryoSerializer
+# spark.driver.memory              5g
+# spark.executor.extraJavaOptions  -XX:+PrintGCDetails -Dkey=value -Dnumbers="one two three"
+
+spark.eventLog.enabled {{ spark_eventLog_enabled }}
+spark.eventLog.dir {{ spark_eventLog_dir }}
+spark.history.fs.logDirectory {{ spark_history_fs_logDirectory }}
+spark.yarn.jars {{ spark_yarn_jars }}

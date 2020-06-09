@@ -1,30 +1,34 @@
+- name: mkdir necessary catalog
+  file: path=/usr/scala state=directory mode=0755
 - name: copy and unzip scala
-  unarchive: src=scala-2.10.6.tgz dest=/usr/local/
+  unarchive: src={{ scala_package_name }} dest=/usr/scala
 - name: set scala env
-  lineinfile: dest={{env_file}} insertafter="{{item.position}}" line="{{item.value}}" state=present
+  lineinfile: dest={{ env_file }} insertafter="{{ item.position }}" line="{{ item.value }}" state=present
   with_items:
-  - {position: EOF, value: "\n"}
   - {position: EOF, value: "# Scala environment"}
-  - {position: EOF, value: "export SCALA_HOME=/usr/local/scala-2.10.6"}
+  - {position: EOF, value: "export SCALA_HOME=/usr/scala/{{ scala_version }}"}
   - {position: EOF, value: "export PATH=$SCALA_HOME/bin:$PATH"}
 - name: copy and unzip spark
-  unarchive: src=spark-1.6.1-bin-hadoop2.6.tgz dest=/usr/local/
-- name: rename spark directory
-  command: mv /usr/local/spark-1.6.1-bin-hadoop2.6 /usr/local/spark-1.6.1
+  unarchive: src={{ spark_package_name }} dest={{ big_data_home }}
 - name: set spark env
-  lineinfile: dest={{env_file}} insertafter="{{item.position}}" line="{{item.value}}" state=present
+  lineinfile: dest={{ env_file }} insertafter="{{ item.position }}" line="{{ item.value }}" state=present
   with_items:
-  - {position: EOF, value: "\n"}
   - {position: EOF, value: "# Spark environment"}
-  - {position: EOF, value: "export SPARK_HOME=/usr/local/spark-1.6.1"}
-  - {position: EOF, value: "export PATH=$SPARK_HOME/bin:$PATH"}
+  - {position: EOF, value: "export SPARK_HOME={{ big_data_home }}/{{ spark_version }}"}
+  - {position: EOF, value: "export PATH=$PATH:$SPARK_HOME/bin:$SPARK_HOME/sbin"}
 - name: enforce env
-  shell: source {{env_file}}
+  shell: source {{ env_file }}
 - name: install configuration file for spark
-  template: src=slaves.j2 dest=/usr/local/spark-1.6.1/conf/slaves
+  template: src=spark-defaults.conf.j2 dest={{ spark_home }}/conf/spark-defaults.conf
 - name: install configuration file for spark
-  template: src=spark-env.sh.j2 dest=/usr/local/spark-1.6.1/conf/spark-env.sh
-- name: start spark cluster
-  shell: /usr/local/spark-1.6.1/sbin/start-all.sh
+  template: src=spark-env.sh.j2 dest={{ spark_home }}/conf/spark-env.sh
+- name: mkdir necessary catalog for hdfs
+  shell: source {{ env_file }} && hdfs dfs -mkdir {{ spark_log }}
+- name: mkdir necessary catalog for hdfs
+  shell: source {{ env_file }} && hdfs dfs -mkdir -p {{ spark_lib_jars_dir }}
+- name: put necessary jars to hdfs
+  shell: source {{ env_file }} && hdfs dfs -put -p {{ spark_home }}/jars/* {{ spark_lib_jars_dir }}
+- name: put necessary jars to hdfs
+  shell: source {{ env_file }} && start-history-server.sh
   tags:
-  - start
+    - start

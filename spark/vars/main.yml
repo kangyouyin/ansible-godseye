@@ -1,12 +1,18 @@
 env_file: /etc/profile
+big_data_home: /opt/bigdata
+scala_package_name: scala-2.11.12.tar.gz
+scala_version: scala-2.11.12
+scala_home: /usr/scala/{{ scala_version }}
+spark_package_name: spark-2.3.4-bin-hadoop2.6.tgz
+spark_version: spark-2.3.4-bin-hadoop2.6
+spark_home: /opt/bigdata/{{ spark_version }}
+# hdfs dir
+spark_log: /spark_log
+spark_lib_jars_dir: /work/spark_lib/jars
 # spark-env.sh.j2 file variables
-JAVA_HOME: /usr/java/jdk1.8.0_73
-SCALA_HOME: /usr/local/scala-2.10.6
-SPARK_MASTER_HOSTNAME: node1
-SPARK_HOME: /usr/local/spark-1.6.1
-SPARK_WORKER_MEMORY: 256M
-HIVE_HOME: /usr/local/apache-hive-2.1.0-bin
-HADOOP_CONF_DIR: /usr/local/hadoop/etc/hadoop/
-# slave.j2 file variables
-SLAVE1_HOSTNAME: node2
-SLAVE2_HOSTNAME: node3
+hadoop_conf_dir: /opt/bigdata/hadoop-2.6.5/etc/hadoop
+# spark-default.conf.j2 file variables
+spark_eventLog_enabled: true
+spark_eventLog_dir: hdfs://mycluster/spark_log
+spark_history_fs_logDirectory: hdfs://mycluster/spark_log
+spark_yarn_jars: hdfs://mycluster/work/spark_lib/jars/*
