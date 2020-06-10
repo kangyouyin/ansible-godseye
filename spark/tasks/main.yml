@@ -28,7 +28,7 @@
   shell: source {{ env_file }} && hdfs dfs -mkdir -p {{ spark_lib_jars_dir }}
 - name: put necessary jars to hdfs
   shell: source {{ env_file }} && hdfs dfs -put -p {{ spark_home }}/jars/* {{ spark_lib_jars_dir }}
-- name: put necessary jars to hdfs
+- name: start history server
   shell: source {{ env_file }} && start-history-server.sh
   tags:
     - start
